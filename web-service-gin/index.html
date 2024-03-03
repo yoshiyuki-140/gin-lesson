@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- style init -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
+  <style>
+    .container {
+      margin: 0px;
+      padding: 10px;
+      max-width: 100vh;
+    }
+
+    p {
+      white-space: pre-wrap;
+      border-width: 5px;
+      border-color: black;
+      border-style: solid;
+      min-height: 2rem;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>JOSN API</h1>
+    <hr>
+    <button class="post-btn">POST</button>
+    <button class="get-btn">GET</button>
+    <input type="text" class="input" placeholder="Album ID">
+    <h2>JSON</h2>
+    <p></p>
+  </div>
+
+</body>
+<script>
+  document.querySelector('.post-btn').addEventListener('click', postAlbum);
+  document.querySelector('.get-btn').addEventListener('click', getAlbums);
+  function getAlbums() {
+    let data = fetch('http://localhost:8080/albums')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        document.querySelector('p').textContent = JSON.stringify(data, null, 2);
+      });
+  }
+  function postAlbum() {
+    fetch('http://localhost:8080/albums', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ID: 4,
+        title: 'kuroAlbum',
+        artist: 'kuro',
+        price: 10.99,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        docuemnt.querySelector('p').textContent = JSON.stringify(data, null, 2);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  }
+</script>
+
+</html>
